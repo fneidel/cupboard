@@ -1,16 +1,24 @@
 {
-  "name": "my-cupboard",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/figlet": "^1.7.0"
-  },
-  "peerDependencies": {
-    "typescript": "^7"
+  "name": "keystone-demp",
+  "version": "0.1",
+  "scripts": {
+    "dev": "keystone dev",
+    "start": "keystone start",
+    "build": "keystone build",
+    "deploy": "git push heroku master"
   },
   "dependencies": {
-    "figlet": "^1.11.4"
+    "@keystone-6/core": "^6.0.0",
+    "@keystone-6/fields-document": "^9.0.0",
+    "@prisma/client": "^5.0.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "~5.0.0"
+  },
+  "volta": {
+    "node": "20.12.2"
   }
 }
