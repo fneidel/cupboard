@@ -4,12 +4,6 @@ import type { TypeInfo } from '.keystone/types'
 import dotenv from 'dotenv';
 
 dotenv.config();
-const {
-  S3_BUCKET_NAME: bucketName = "",
-  S3_REGION: region = "",
-  S3_ACCESS_KEY_ID: accessKeyId = "",
-  S3_SECRET_ACCESS_KEY: secretAccessKey = "",
-} = process.env;
 
 export default config<TypeInfo>({
   db: {
@@ -18,13 +12,17 @@ export default config<TypeInfo>({
   },
   lists,
   storage: {
-    img_s3: {
-      kind: 's3',
-      type: 'image',
-      bucketName,
-      region,
-      accessKeyId,
-      secretAccessKey,
-    },
+    img_local: {
+      kind: "local",
+      type: "image",
+      storagePath: "public/images",
+
+      generateUrl: (path) =>
+        `http://localhost:3000/images${path}`,
+
+      serverRoute: {
+        path: "/images",
+      },
+    }
   }
 })

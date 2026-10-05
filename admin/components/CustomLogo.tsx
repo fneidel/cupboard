@@ -18,7 +18,7 @@ export const CustomLogo = () => {
           textDecoration: 'none',
         }}
       >
-        Recipe Creator
+        Francis Cupboard
       </Link>
     </H3>
   )

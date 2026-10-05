@@ -51,7 +51,7 @@ Wenn beispielsweise 250g benötigt werden wäre die Menge: 2.5 (weil 2.5*100g)`
     fields: {
       title: text({ validation: {isRequired: true}}),
       ingredients: relationship({ ref: 'Amount', many: true }),
-      image: image({ storage: "img_s3" }),
+      image: image({ storage: "img_local" }),
       description: document({
         formatting: true,
         links: true,
