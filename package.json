@@ -2,10 +2,16 @@
   "name": "keystone-demp",
   "version": "0.1",
   "scripts": {
-    "dev": "keystone dev",
+    "dev": "keystone dev --no-db-push",
     "start": "keystone start",
     "build": "keystone build",
+    "db:migrate": "keystone prisma migrate dev",
+    "db:deploy": "keystone prisma migrate deploy",
+    "db:seed": "keystone prisma db seed",
     "deploy": "git push heroku master"
+  },
+  "prisma": {
+    "seed": "tsx scripts/seed-lookups.ts"
   },
   "dependencies": {
     "@keystone-6/core": "^6.0.0",

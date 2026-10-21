@@ -1,57 +1,43 @@
-# My Cupboard
+# Cupboard
 
-## Bun 
-To install dependencies:
+Cupboard is a Keystone 6 wardrobe inventory backed by SQLite.
 
-```bash
-bun install
-```
+## Initial setup
 
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.4.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
-
-## Keystone Demo
-
-This is a little demo of Node.js CMS [Keystone 6](https://keystonejs.com/) I built and includes:
-
-- Model logic around recipes
-- Custom page rendering all recipes from the GraphQL API
-- Images hosted at S3
-
-Their documentation includes a bunch of [great examples](https://keystonejs.com/docs/examples) to get you started.
-
-### Install & Configure
+Install dependencies and create the local environment file:
 
 ```sh
-pnpm i
+pnpm install
+cp .env.example .env
 ```
 
-Copy `.env.example` to `.env` and fill in the variables.
+Create the database from the committed migrations, then run the lookup seed:
 
-Create the S3 bucket on AWS, make it publicly accessible and use this bucket policy:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowPublicRead",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
-        }
-    ]
-}
+```sh
+pnpm db:deploy
+pnpm db:seed
 ```
 
-### Run
+Start Keystone after the database has been initialized:
 
 ```sh
 pnpm dev
 ```
 
+The Admin UI is available at `http://localhost:3000`.
+
+## Database development
+
+Change the TypeScript list definitions under `src/schema/`; do not edit generated `schema.prisma`, `schema.graphql`, or `.keystone` files.
+
+Generate a development migration after changing the schema:
+
+```sh
+pnpm db:migrate -- --name describe_the_change
+```
+
+Apply committed migrations in a fresh or deployed environment with `pnpm db:deploy`. Run `pnpm db:seed` afterward to add configured lookup records safely.
+
+Prisma 5.12, pinned by the installed Keystone version, reads its seed command from the `prisma.seed` property in `package.json`. This is the supported equivalent of the `prisma.config.ts` setup described by the V1 specification for newer Prisma versions.
+
+Local wardrobe images belong in `storage/wardrobe-images/`.
