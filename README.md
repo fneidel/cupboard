@@ -18,7 +18,9 @@ pnpm db:deploy
 pnpm db:seed
 ```
 
-Start Keystone after the database has been initialized:
+## Start the application
+
+After completing the initial setup, start Keystone:
 
 ```sh
 pnpm dev
