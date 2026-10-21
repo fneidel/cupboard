@@ -8,7 +8,7 @@
     "db:migrate": "keystone prisma migrate dev",
     "db:deploy": "keystone prisma migrate deploy",
     "db:seed": "keystone prisma db seed",
-    "deploy": "git push heroku master"
+    "deploy:heroku": "git push heroku master"
   },
   "prisma": {
     "seed": "tsx scripts/seed-lookups.ts"
@@ -16,6 +16,7 @@
   "dependencies": {
     "@keystone-6/core": "^6.0.0",
     "@keystone-6/fields-document": "^9.0.0",
+    "@keystone-ui/core": "^5.0.2",
     "@prisma/client": "^5.0.0",
     "dotenv": "^16.4.5"
   },

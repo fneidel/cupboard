@@ -36,5 +36,9 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Generated
 schema.graphql
 schema.prisma
-keystone-example.db
+cupboard.db
+cupboard.db-journal
 .keystone/
+
+# Other files
+/var*
