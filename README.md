@@ -13,11 +13,10 @@ pnpm install
 cp .env.example .env
 ```
 
-Create the database from the committed migrations, then run the lookup seed:
+Create the database from the committed migrations:
 
 ```sh
 pnpm db:deploy
-pnpm db:seed
 ```
 
 ## Start the application
@@ -30,7 +29,7 @@ pnpm dev
 
 The Admin UI is available at `http://localhost:3000`. 
 This command uses `--no-db-push`, so it never creates or updates database tables automatically. 
-Apply migrations first with `pnpm db:deploy`, then run `pnpm db:seed` if the change adds initial `Brand` or `Source` records.
+Apply migrations first with `pnpm db:deploy`.
 
 ## Commands
 
@@ -40,4 +39,3 @@ Apply migrations first with `pnpm db:deploy`, then run `pnpm db:seed` if the cha
 | `pnpm dev` | Starts Keystone locally without changing the database schema. |
 | `pnpm db:migrate -- --name change_name` | Creates and applies a new development migration after a schema change. |
 | `pnpm db:deploy` | Applies committed migrations to create or update database tables. |
-| `pnpm db:seed` | Adds configured lookup records after migrations; it is safe to rerun. |

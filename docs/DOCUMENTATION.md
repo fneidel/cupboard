@@ -46,18 +46,13 @@ Every wardrobe item defaults its `brand_id` and `source_id` to those records.
 Required enum fields also have sensible defaults: material is `UNKNOWN`, fit is `REGULAR`, warmth is `NORMAL`, and size is `ONE_SIZE`. 
 Each family also has a valid initial subtype default.
 
-### Database change and seed story
+### Database change story
 
 `src/schema/` is the model definition that developers edit. 
 Keystone turns it into a Prisma schema, and a migration turns that schema change into versioned SQL. 
 
-The initial migration owns the tables, defaults, foreign keys, and the two `UNKNOWN` records. 
-It is intentionally not recreated by application startup.
-
-`scripts/seed-lookups.ts` is for additional initial brands and sources only. 
-It first checks that the migration-created `UNKNOWN` records exist, then adds configured lookups with upserts. 
-An upsert means it can run again without duplicates. 
-It does not seed enum values because enums are code, not database rows.
+Migrations own the tables, defaults, foreign keys, and the two `UNKNOWN` records.
+The first migration creates the structure; a follow-up migration adds the two fallback lookup records for the already-initialized database. They are intentionally not recreated by application startup. Enums remain code in `src/schema/enums/`; they are never stored as lookup rows.
 
 Developers change the TypeScript definitions in `src/schema/`; generated `schema.prisma`, `schema.graphql`, and `.keystone` files must not be edited manually. 
 After a model change, create a migration with:
@@ -67,17 +62,13 @@ pnpm db:migrate -- --name describe_the_change
 ```
 
 Review and commit the new migration with the TypeScript change. 
-Apply committed migrations with `pnpm db:deploy`, then run `pnpm db:seed` if the change adds initial `Brand` or `Source` records. 
-Do not edit a migration that has already been applied; create a new migration instead.
-
-Prisma is pinned by Keystone and reads the seed command from `prisma.seed` in `package.json`, which is its supported equivalent of newer Prisma versions' `prisma.config.ts` setup.
+Apply committed migrations with `pnpm db:deploy`. Do not edit a migration that has already been applied; create a new migration instead.
 
 ```mermaid
 flowchart LR
     Schema[src/schema definitions] --> Migration[Versioned SQL migration]
     Migration --> Database[Tables + defaults + UNKNOWN]
-    Database --> Seed[Seed additional lookup records]
-    Seed --> Admin[Admin UI manages later brands and sources]
+    Database --> Admin[Admin UI manages brands and sources]
 ```
 
 ### Where to find what
@@ -88,5 +79,4 @@ flowchart LR
 | `src/schema/fields/` | Keeps common field rules consistent across families. |
 | `src/schema/enums/` | Defines controlled choices and their defaults. |
 | `migrations/` | Records permanent database structure changes. |
-| `scripts/seed-lookups.ts` | Adds repeatable initial lookup data after migrations. |
 | `storage/wardrobe-images/` | Holds local image files for V1. |

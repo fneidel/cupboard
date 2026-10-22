@@ -10,9 +10,6 @@ CREATE TABLE "Source" (
     "name" TEXT NOT NULL DEFAULT ''
 );
 
-INSERT INTO "Brand" ("id", "name") VALUES (1, 'UNKNOWN');
-INSERT INTO "Source" ("id", "name") VALUES (1, 'UNKNOWN');
-
 -- CreateTable
 CREATE TABLE "Clothing" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
