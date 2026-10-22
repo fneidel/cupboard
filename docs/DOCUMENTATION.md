@@ -1,10 +1,12 @@
 # How Cupboard works
 
-Cupboard is a personal wardrobe inventory. Its purpose is to record what an item is, where it came from, and the information needed to find or compare it later.
+Cupboard is a personal wardrobe inventory. 
+Its purpose is to record what an item is, where it came from, and the information needed to find or compare it later.
 
-## The wardrobe story
+## Structure of the data
 
-An item belongs to one concrete family: clothing, footwear, hosiery, jewelry, a bag, an accessory, or headwear. This prevents meaningless information: jewelry has a length, but not a clothing fit or warmth level.
+An item belongs to one concrete family: clothing, footwear, hosiery, jewelry, a bag, an accessory, or headwear.
+This prevents meaningless information: jewelry has a length, but not a clothing fit or warmth level.
 
 ```mermaid
 flowchart LR
@@ -16,17 +18,22 @@ flowchart LR
     Source --> Saved
 ```
 
-Each family has its own database table. The table itself is the broad category, while `subType` describes the specific kind inside that family: for example, `Clothing → JEANS` or `Jewelry → EARRINGS`.
+Each family has its own database table. 
+The table itself is the broad category, while `subType` describes the specific kind inside that family: for example, `Clothing → JEANS` or `Jewelry → EARRINGS`.
 
-## Shared item information
+### Shared item information
 
-All wardrobe families keep their own copy of the shared item information: name, brand, source, notes, image path, material, and whether maintenance is needed. Keeping these columns in each table makes every family usable on its own and avoids a large table full of irrelevant empty fields.
+All wardrobe families keep their own copy of the shared item information: name, brand, source, notes, image path, material, and whether maintenance is needed. 
+Keeping these columns in each table makes every family usable on its own and avoids a large table full of irrelevant empty fields.
 
-`Brand` and `Source` are lookup records, not enums. They are stored in the database because they can grow naturally as the wardrobe grows. The Admin UI can add a new brand or source without changing code.
+`Brand` and `Source` are lookup records, not enums. 
+They are stored in the database because they can grow naturally as the wardrobe grows. 
+The Admin UI can add a new brand or source without changing code.
 
-Material, fit, warmth, size, and subtype are different: they are controlled application enums. Their allowed values live in `src/schema/enums/` so the application presents consistent choices and avoids spelling variants such as `blue jeans`, `Blue Jeans`, or `jeans` for the same kind of value.
+Material, fit, warmth, size, and subtype are different: they are controlled application enums. 
+Their allowed values live in `src/schema/enums/` so the application presents consistent choices and avoids spelling variants such as `blue jeans`, `Blue Jeans`, or `jeans` for the same kind of value.
 
-## Unknown is a valid state
+### Unknown is a valid state
 
 Not knowing a brand or source should not stop someone from recording an item. The first database migration creates these two permanent fallback records:
 
@@ -35,15 +42,35 @@ Brand  id: 1, name: UNKNOWN
 Source id: 1, name: UNKNOWN
 ```
 
-Every wardrobe item defaults its `brand_id` and `source_id` to those records. Required enum fields also have sensible defaults: material is `UNKNOWN`, fit is `REGULAR`, warmth is `NORMAL`, and size is `ONE_SIZE`. Each family also has a valid initial subtype default.
+Every wardrobe item defaults its `brand_id` and `source_id` to those records. 
+Required enum fields also have sensible defaults: material is `UNKNOWN`, fit is `REGULAR`, warmth is `NORMAL`, and size is `ONE_SIZE`. 
+Each family also has a valid initial subtype default.
 
-## Database change and seed story
+### Database change and seed story
 
-`src/schema/` is the model definition that developers edit. Keystone turns it into a Prisma schema, and a migration turns that schema change into versioned SQL. Migrations are the shared history of how every database reaches the same structure.
+`src/schema/` is the model definition that developers edit. 
+Keystone turns it into a Prisma schema, and a migration turns that schema change into versioned SQL. 
 
-The initial migration owns the tables, defaults, foreign keys, and the two `UNKNOWN` records. It is intentionally not recreated by application startup.
+The initial migration owns the tables, defaults, foreign keys, and the two `UNKNOWN` records. 
+It is intentionally not recreated by application startup.
 
-`scripts/seed-lookups.ts` is for additional initial brands and sources only. It first checks that the migration-created `UNKNOWN` records exist, then adds configured lookups with upserts. An upsert means it can run again without duplicates. It does not seed enum values because enums are code, not database rows.
+`scripts/seed-lookups.ts` is for additional initial brands and sources only. 
+It first checks that the migration-created `UNKNOWN` records exist, then adds configured lookups with upserts. 
+An upsert means it can run again without duplicates. 
+It does not seed enum values because enums are code, not database rows.
+
+Developers change the TypeScript definitions in `src/schema/`; generated `schema.prisma`, `schema.graphql`, and `.keystone` files must not be edited manually. 
+After a model change, create a migration with:
+
+```sh
+pnpm db:migrate -- --name describe_the_change
+```
+
+Review and commit the new migration with the TypeScript change. 
+Apply committed migrations with `pnpm db:deploy`, then run `pnpm db:seed` if the change adds initial `Brand` or `Source` records. 
+Do not edit a migration that has already been applied; create a new migration instead.
+
+Prisma is pinned by Keystone and reads the seed command from `prisma.seed` in `package.json`, which is its supported equivalent of newer Prisma versions' `prisma.config.ts` setup.
 
 ```mermaid
 flowchart LR
@@ -53,7 +80,7 @@ flowchart LR
     Seed --> Admin[Admin UI manages later brands and sources]
 ```
 
-## Where to look
+### Where to find what
 
 | Location | Why it exists |
 | --- | --- |
