@@ -39,7 +39,8 @@ For example, `Clothing.subtype = JEANS` and `Jewelry.subtype = EARRINGS`.
 | `Brand`     | `id` (auto-increment PK), `name` (required, unique) | Easy-to-change table, thus it has been decided to choose a DB table over enums for it                                                                                                                                                                                                             |
 | `Source`    | `id` (auto-increment PK), `name` (required, unique) | Easy-to-change table, thus it has been decided to choose a DB table over enums for it                                                                                                                         |
 
-These subtype lists are initial proposals, not an exhaustive inventory. Add a value when the wardrobe needs it; keep each subtype enum scoped to its model.
+These subtype lists are initial proposals, not an exhaustive inventory. 
+Add a value when the wardrobe needs it; keep each subtype enum scoped to its model.
 
 #### Brand and Source default values strategy
 
@@ -49,22 +50,23 @@ ID must be defined in migration as the first (ID = `1`) value for that table, an
 ## 4. V1 fields
 
 > Note: 
-> * For DB columns snake_case is the rule, for the system though (coding), camelCase will be the norm.
+> * For DB columns, snake_case is the rule; for the system code, camelCase will be the norm.
 
 ### Common fields on each concrete model
 
 | Field                  | Type/constraint       | Notes                                                                                                |
 |------------------------|-----------------------|------------------------------------------------------------------------------------------------------|
-| `id`                   | int, auto-incremental, primary key | Separate identity for every record.                                                                  |
+| `id`                   | int, auto-incrementing, primary key | Separate identity for every record.                                                                  |
 | `name`                 | Required string       | A short human-readable label.                                                                        |
 | `brand_id`             | id (auto-increment PK) | Use `UNKNOWN` ID when not known (default value).                                                     |
 | `source_id`            | id (auto-increment PK)| Where it came from; use `UNKNOWN` ID as needed (default value).                                      |
 | `notes`                | Nullable text         | Free-form details that do not justify a dedicated field yet.                                         |
 | `image_path`           | Nullable string       | Path/key used by the application’s image storage. It is a local filesystem path for V1.              |
 | `material`             | Required enum         | Use `UNKNOWN` when not known (default value). When blend, use `COTTON_BLEND`, `WOOL_BLEND` and such. |
-| `requires_maintenance` | boolena | Flag for items needing physical upkeep, repairs, or tailoring.                                       |
+| `requires_maintenance` | boolean | Flag for items needing physical upkeep, repairs, or tailoring.                                       |
 
-Common fields are repeated in each table because there is no parent table. Keep their names and meaning consistent across the models.
+Common fields are repeated in each table because there is no parent table. 
+Keep their names and meaning consistent across the models.
 
 ### Family-specific fields
 
@@ -73,9 +75,9 @@ Common fields are repeated in each table because there is no parent table. Keep 
 | `Clothing` | `sub_type`, `size`, `fit`, `warmth_level`, `original_size`, `usage_context`                                                                                                |
 | `Footwear` | `sub_type`, `size`, `fit`, `warmth_level`, `is_slip_resistant`, `original_size`                                                                                           |
 | `Hosiery` | `sub_type`, `size`, `warmth_level`, `original_size`                                                                                                                       |
-| `Jewelry` | `sub_type`, `lenght` (in cm, default `null`)                                                                                                                              |
+| `Jewelry` | `sub_type`, `length` (in cm, default `null`)                                                                                                                              |
 | `Bag` | `sub_type`                                                                                                                                                                |
-| `Accessory` | `sub_type`, `warmth_level` (applicable to items such as gloves or scarves, for such items it shuold not be `null`, but allow it to be null for the rest), `original_size` |
+| `Accessory` | `sub_type`, `warmth_level` (applicable to items such as gloves or scarves; for those items it should not be `null`, but allow it to be null for the rest), `original_size` |
 | `Headwear` | `sub_type`, `size`, `fit`, `warmth_level`, `original_size`                                                                                                                |
 
 Fields that do not apply to the base model, should not be added to its table, but to the specific model table. 
@@ -85,11 +87,11 @@ Nullable fields within a family are appropriate when an attribute is optional fo
 
 Enums are used for controlled V1 values: brand, source, fit, size, warmth level, and each model’s subtype. 
 
-These are application-level enums stored as stable string values in the database, protect the persistance from adding a foreign value to an enum-dominated DB column. 
+These are application-level enums stored as stable string values in the database, protecting persistence from adding a foreign value to an enum-dominated DB column.
 
 Avoid database-native enum types unless the chosen database and migration strategy make changing them straightforward.
 
-Enum columns can not be null by default, a default value will be chosen, unless specified ahead (exceptions). 
+Enum columns cannot be null by default; a default value will be chosen unless specified as an exception.
 
 Suggested initial values:
 
@@ -108,11 +110,11 @@ Keep the size used for filtering separate from the size printed on the garment:
 
 - `size` is the normalized size in the application's chosen default sizing system per family/model. 
 For example, if a garment is labelled `M` but it has been determined that it fits like `S`, store `S` here.
-These values should be defined per model and can not be null or a value outside the defined ones.
+These values should be defined per model and cannot be null or a value outside the defined ones.
 For those situations in which there is not a specific size for the item use `ONE_SIZE`.
-If not size is known use `UNKNOWN`.
+If no size is known, use `UNKNOWN`.
 - `original_size` is a nullable string containing the label exactly as shown on the item, such as `28x29`, `M/L`, `42-44`, and others. 
-Values that separate from the already defined per model sizing, or for those garments whose sizing is mark as an `M` but its real sizing is `S`, then `M` will be store in here.
+For values outside the defined sizing for that model, or garments labelled `M` that fit like `S`, store `M` here.
 Preserve spelling and punctuation. 
 This is not another enum and does not replace size, and it can be null.
 
@@ -269,10 +271,7 @@ Organize Keystone lists by model, and keep reusable wardrobe logic outside the l
 ```text
 .
 ├── keystone.ts
-├── prisma.config.ts
 ├── migrations/
-├── scripts/
-│   └── seed-lookups.ts
 ├── src/
 │   ├── schema/
 │   │   ├── index.ts
@@ -320,14 +319,10 @@ For example, `Clothing.brand` can reference `Brand.clothingItems`, and `Footwear
 
 Keep size normalization and mappings in `src/features/wardrobe/sizing/`, outside the Keystone list definitions, so they can be reused and tested independently.
 
-### Database setup and seed data
+### Database setup
 
-The initial migration creates the `UNKNOWN` records in `Brand` and `Source` with ID `1`, as specified in [section 3](#3-model-families-and-subtype-examples), together with the [required enum defaults](#required-enum-defaults). 
-The migration owns these records and their IDs.
-
-`scripts/seed-lookups.ts` adds the other initial `Brand` and `Source` records explicitly listed in this specification. 
-Configure the seed command in `prisma.config.ts` and run it after migrations with `npx prisma db seed`. 
-Make the script safe to rerun without creating duplicate records.
+Migrations create the `UNKNOWN` records in `Brand` and `Source` with ID `1`, as specified in [section 3](#3-model-families-and-subtype-examples), together with the [required enum defaults](#required-enum-defaults). 
+Migrations own these records and their IDs.
 
 Enums are application-level values, not lookup-table rows. 
 Define their options and required defaults in the Keystone schema; do not add enum values through the Admin UI or create database rows for them. 

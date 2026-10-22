@@ -2,20 +2,24 @@
   "name": "keystone-demp",
   "version": "0.1",
   "scripts": {
-    "dev": "keystone dev",
+    "dev": "keystone dev --no-db-push",
     "start": "keystone start",
     "build": "keystone build",
-    "deploy": "git push heroku master"
+    "db:migrate": "keystone prisma migrate dev",
+    "db:deploy": "keystone prisma migrate deploy",
+    "deploy:heroku": "git push heroku master"
   },
   "dependencies": {
     "@keystone-6/core": "^6.0.0",
     "@keystone-6/fields-document": "^9.0.0",
+    "@keystone-ui/core": "^5.0.2",
     "@prisma/client": "^5.0.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
     "prisma": "^5.0.0",
-    "tsx": "^4.0.0",
     "typescript": "~5.0.0"
   },
   "volta": {

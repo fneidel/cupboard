@@ -1,57 +1,41 @@
-# My Cupboard
+# Cupboard
 
-## Bun 
-To install dependencies:
+Cupboard is a wardrobe inventory management system.
 
-```bash
-bun install
-```
+<img src="public/images/dashboard_screenshot.png" width="700px">
 
-To run:
+## Initial setup
 
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.4.0. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
-
-## Keystone Demo
-
-This is a little demo of Node.js CMS [Keystone 6](https://keystonejs.com/) I built and includes:
-
-- Model logic around recipes
-- Custom page rendering all recipes from the GraphQL API
-- Images hosted at S3
-
-Their documentation includes a bunch of [great examples](https://keystonejs.com/docs/examples) to get you started.
-
-### Install & Configure
+Install dependencies and create the local environment file:
 
 ```sh
-pnpm i
+pnpm install
+cp .env.example .env
 ```
 
-Copy `.env.example` to `.env` and fill in the variables.
+Create the database from the committed migrations:
 
-Create the S3 bucket on AWS, make it publicly accessible and use this bucket policy:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowPublicRead",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::BUCKET_NAME/*"
-        }
-    ]
-}
+```sh
+pnpm db:deploy
 ```
 
-### Run
+## Start the application
+
+After completing the initial setup, start Keystone:
 
 ```sh
 pnpm dev
 ```
 
+The Admin UI is available at `http://localhost:3000`. 
+This command uses `--no-db-push`, so it never creates or updates database tables automatically. 
+Apply migrations first with `pnpm db:deploy`.
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm build` | Generates Keystone schemas and builds the production Admin UI. It does not change database data. |
+| `pnpm dev` | Starts Keystone locally without changing the database schema. |
+| `pnpm db:migrate -- --name change_name` | Creates and applies a new development migration after a schema change. |
+| `pnpm db:deploy` | Applies committed migrations to create or update database tables. |
