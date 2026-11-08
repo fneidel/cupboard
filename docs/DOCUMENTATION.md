@@ -37,7 +37,7 @@ Location is optional and defaults to `null`.
 Material, fit, warmth, season, size, and subtype are different: they are controlled application enums.
 Their allowed values live in `src/schema/enums/` so the application presents consistent choices and avoids spelling variants such as `blue jeans`, `Blue Jeans`, or `jeans` for the same kind of value.
 Each enum option defines a stable stored `value` and a readable Admin UI `label`.
-Footwear uses optional `season` instead of warmth: `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), or `SUMMER`. This is easier to categorize and filter than a personal warmth or breathability rating, especially for winter and summer footwear.
+Footwear requires `season` instead of warmth: `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), or `SUMMER`. This is easier to categorize and filter than a personal warmth or breathability rating, especially for winter and summer footwear.
 
 ### Unknown is a valid state
 
@@ -50,7 +50,7 @@ Source id: 1, name: UNKNOWN
 
 Every wardrobe item defaults its `brand_id` and `source_id` to those records. 
 Required enum fields also have sensible defaults: material is `UNKNOWN`, fit is `REGULAR`, warmth is `NORMAL`, and size is `ONE_SIZE`. 
-Footwear's `season` is optional and defaults to `null`.
+Footwear's `season` is required and has no default; choose a value when creating an item.
 Each family also has a valid initial subtype default.
 
 ### Database change story

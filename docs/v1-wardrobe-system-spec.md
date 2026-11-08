@@ -104,7 +104,7 @@ Suggested initial values:
 
 - **Fit:** `VERY_TIGHT`, `TIGHT`, `REGULAR`, `LOOSE`, `OVERSIZED`. Use `REGULAR` by default.
 - **Warmth level:** `VERY_LIGHT`, `LIGHT`, `NORMAL`, `WARM`, `VERY_WARM`. Use `NORMAL` as default value.
-- **Season:** `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), `SUMMER`. Use `null` as the default.
+- **Season:** `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), `SUMMER`. Required, with no default.
 - **Size:** use family-specific enums (for example `ClothingSize`, `FootwearSize`, `HosierySize`, `HeadwearSize`) so unrelated sizing systems do not share one giant enum. 
 Check the [Sizing rules](#51-size-normalization-and-original-labels). Include `ONE_SIZE` and `UNKNOWN` where useful.
 - **Original Size:** Check the [Sizing rules](#51-size-normalization-and-original-labels). 
@@ -128,7 +128,7 @@ This is not another enum and does not replace size, and it can be null.
 
 ## 6. Season, warmth, and usage
 
-Footwear uses optional `season` (`WINTER`, `IN_BETWEEN_SEASONS`, or `SUMMER`) rather than `warmth_level`.
+Footwear requires `season` (`WINTER`, `IN_BETWEEN_SEASONS`, or `SUMMER`) rather than `warmth_level`.
 This avoids asking the user to assign a personal warmth or breathability rating when categorizing or filtering shoes, particularly winter and breathable summer shoes.
 
 The enum field `warmth_level` remains the simple personal warmth rating for families that use it and defaults to `NORMAL`.
@@ -390,7 +390,7 @@ Define required enum fields and their defaults in the Keystone schema during ini
 - `size`: `ONE_SIZE`
 
 `usage_context` remains nullable, with `null` as its default. 
-`season` and `location` remain nullable, with `null` as their default.
+`location` remains nullable, with `null` as its default. `season` is required and has no default.
 Choose a valid default for each required `sub_type` enum before implementation.
 
 ### Frontend scope

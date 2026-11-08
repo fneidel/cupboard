@@ -50,7 +50,7 @@ CREATE TABLE "Footwear" (
     "sub_type" TEXT NOT NULL DEFAULT 'SNEAKERS',
     "size" TEXT NOT NULL DEFAULT 'ONE_SIZE',
     "fit" TEXT NOT NULL DEFAULT 'REGULAR',
-    "season" TEXT,
+    "season" TEXT NOT NULL,
     "is_slip_resistant" BOOLEAN NOT NULL DEFAULT false,
     "original_size" TEXT,
     CONSTRAINT "Footwear_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,

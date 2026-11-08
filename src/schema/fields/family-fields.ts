@@ -24,7 +24,8 @@ export const createSeasonField = () =>
   select({
     options: seasonOptions,
     type: 'enum',
-    db: { isNullable: true },
+    validation: { isRequired: true },
+    db: { isNullable: false },
   })
 
 export const createOriginalSizeField = () =>
