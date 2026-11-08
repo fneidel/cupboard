@@ -13,6 +13,7 @@ export const Footwear = list({
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.footwearItems',
+      location: 'Location.footwearItems',
       source: 'Source.footwearItems',
     }),
     subType: select({
