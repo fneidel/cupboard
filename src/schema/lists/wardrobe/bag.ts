@@ -10,6 +10,7 @@ export const Bag = list({
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.bags',
+      location: 'Location.bags',
       source: 'Source.bags',
     }),
     subType: select({

@@ -11,6 +11,7 @@ export const Jewelry = list({
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.jewelryItems',
+      location: 'Location.jewelryItems',
       source: 'Source.jewelryItems',
     }),
     subType: select({

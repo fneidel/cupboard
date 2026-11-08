@@ -1,12 +1,12 @@
 export const footwearSubtypeOptions = [
-  'SNEAKERS',
-  'SPORT_SHOES',
-  'BOOTS',
-  'ANKLE_BOOTS',
-  'SANDALS',
-  'FLATS',
-  'HEELS',
-  'LOAFERS',
+  { label: 'Sneakers', value: 'SNEAKERS' },
+  { label: 'Sport shoes', value: 'SPORT_SHOES' },
+  { label: 'Boots', value: 'BOOTS' },
+  { label: 'Ankle boots', value: 'ANKLE_BOOTS' },
+  { label: 'Sandals', value: 'SANDALS' },
+  { label: 'Flats', value: 'FLATS' },
+  { label: 'Heels', value: 'HEELS' },
+  { label: 'Loafers', value: 'LOAFERS' },
 ] as const
 
-export const defaultFootwearSubtype = 'SNEAKERS' satisfies (typeof footwearSubtypeOptions)[number]
+export const defaultFootwearSubtype = 'SNEAKERS' satisfies (typeof footwearSubtypeOptions)[number]['value']
