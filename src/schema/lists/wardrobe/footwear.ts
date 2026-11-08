@@ -4,7 +4,7 @@ import { checkbox, select } from '@keystone-6/core/fields'
 import { defaultFootwearSize, footwearSizeOptions } from '../../enums/sizes/footwear-size'
 import { defaultFootwearSubtype, footwearSubtypeOptions } from '../../enums/subtypes/footwear-subtype'
 import { createCommonWardrobeFields } from '../../fields/common-wardrobe-fields'
-import { createFitField, createOriginalSizeField, createWarmthLevelField } from '../../fields/family-fields'
+import { createFitField, createOriginalSizeField, createSeasonField } from '../../fields/family-fields'
 
 export const Footwear = list({
   access: allowAll,
@@ -29,7 +29,7 @@ export const Footwear = list({
       validation: { isRequired: true },
     }),
     fit: createFitField(),
-    warmthLevel: createWarmthLevelField(),
+    season: createSeasonField(),
     isSlipResistant: checkbox({
       defaultValue: false,
       db: { map: 'is_slip_resistant' },
