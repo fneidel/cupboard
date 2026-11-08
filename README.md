@@ -2,7 +2,14 @@
 
 Cupboard is a wardrobe inventory management system.
 
-<img src="public/images/dashboard_screenshot.png" width="700px">
+<img src="public/images/welcome_dashboard_screenshot.png" width="700px" alt="Welcome Page Screenshot">
+<sub><sup>Welcome View Screenshot</sup></sub>
+
+<img src="public/images/dashboard_screenshot.png" width="700px" alt="Dashboard Page Screenshot">
+<sub><sup>Dashboard View Screenshot</sup></sub>
+
+<img src="public/images/list_view_screenshot.png" width="700px" alt="Dashboard Page Screenshot">
+<sub><sup>List View Screenshot</sup></sub>
 
 ## Initial setup
 
