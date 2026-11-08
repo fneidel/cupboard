@@ -51,3 +51,7 @@ schema.prisma
 
 # Other files
 /var*
+
+# Local image uploads
+/storage/wardrobe-images/*
+!/storage/wardrobe-images/.gitkeep

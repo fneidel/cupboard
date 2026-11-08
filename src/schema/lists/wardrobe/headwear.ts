@@ -9,6 +9,7 @@ import { createFitField, createOriginalSizeField, createWarmthLevelField } from 
 export const Headwear = list({
   access: allowAll,
   graphql: { plural: 'HeadwearItems' },
+  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.headwearItems',

@@ -6,6 +6,7 @@ import { createCommonWardrobeFields } from '../../fields/common-wardrobe-fields'
 
 export const Bag = list({
   access: allowAll,
+  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.bags',
