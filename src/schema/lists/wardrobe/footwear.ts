@@ -9,7 +9,7 @@ import { createFitField, createOriginalSizeField, createSeasonField } from '../.
 export const Footwear = list({
   access: allowAll,
   graphql: { plural: 'FootwearItems' },
-  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
+  ui: { listView: { initialColumns: ['name', 'brand', 'image', 'season'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.footwearItems',

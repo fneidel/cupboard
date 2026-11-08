@@ -36,7 +36,8 @@ Location is optional and defaults to `null`.
 
 Material, fit, warmth, season, size, and subtype are different: they are controlled application enums.
 Their allowed values live in `src/schema/enums/` so the application presents consistent choices and avoids spelling variants such as `blue jeans`, `Blue Jeans`, or `jeans` for the same kind of value.
-Footwear uses optional `season` instead of warmth: it is easier to categorize and filter shoes by seasonal use than by a personal warmth or breathability rating, especially for winter/autumn and summer footwear.
+Each enum option defines a stable stored `value` and a readable Admin UI `label`.
+Footwear uses optional `season` instead of warmth: `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), or `SUMMER`. This is easier to categorize and filter than a personal warmth or breathability rating, especially for winter and summer footwear.
 
 ### Unknown is a valid state
 

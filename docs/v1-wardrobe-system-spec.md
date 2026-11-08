@@ -94,6 +94,7 @@ Nullable fields within a family are appropriate when an attribute is optional fo
 Enums are used for controlled V1 values: material, fit, size, warmth level, season, and each model’s subtype.
 
 These are application-level enums stored as stable string values in the database, protecting persistence from adding a foreign value to an enum-dominated DB column.
+Each option defines a stored `value` and a readable Admin UI `label`.
 
 Avoid database-native enum types unless the chosen database and migration strategy make changing them straightforward.
 
@@ -103,7 +104,7 @@ Suggested initial values:
 
 - **Fit:** `VERY_TIGHT`, `TIGHT`, `REGULAR`, `LOOSE`, `OVERSIZED`. Use `REGULAR` by default.
 - **Warmth level:** `VERY_LIGHT`, `LIGHT`, `NORMAL`, `WARM`, `VERY_WARM`. Use `NORMAL` as default value.
-- **Season:** `WINTER`, `SPRING`, `SUMMER`, `AUTUMN`. Use `null` as the default.
+- **Season:** `WINTER`, `IN_BETWEEN_SEASONS` (spring/autumn), `SUMMER`. Use `null` as the default.
 - **Size:** use family-specific enums (for example `ClothingSize`, `FootwearSize`, `HosierySize`, `HeadwearSize`) so unrelated sizing systems do not share one giant enum. 
 Check the [Sizing rules](#51-size-normalization-and-original-labels). Include `ONE_SIZE` and `UNKNOWN` where useful.
 - **Original Size:** Check the [Sizing rules](#51-size-normalization-and-original-labels). 
@@ -127,10 +128,10 @@ This is not another enum and does not replace size, and it can be null.
 
 ## 6. Season, warmth, and usage
 
-Footwear uses optional `season` rather than `warmth_level`.
-This avoids asking the user to assign a personal warmth or breathability rating when categorizing or filtering shoes, particularly winter/autumn shoes and breathable summer shoes.
+Footwear uses optional `season` (`WINTER`, `IN_BETWEEN_SEASONS`, or `SUMMER`) rather than `warmth_level`.
+This avoids asking the user to assign a personal warmth or breathability rating when categorizing or filtering shoes, particularly winter and breathable summer shoes.
 
-The eum field `warmth_level` remains the simple personal warmth rating for families that use it and defaults to `NORMAL`.
+The enum field `warmth_level` remains the simple personal warmth rating for families that use it and defaults to `NORMAL`.
 
 ## 7. ER diagram
 
@@ -317,6 +318,7 @@ Organize Keystone lists by model, and keep reusable wardrobe logic outside the l
 │   │   ├── enums/
 │   │   │   ├── material.ts
 │   │   │   ├── fit.ts
+│   │   │   ├── season.ts
 │   │   │   ├── warmth-level.ts
 │   │   │   └── sizes/
 │   │   │   └── ...
@@ -353,7 +355,7 @@ It imports the Keystone lists assembled by `src/schema/index.ts`.
 
 Each file under `src/schema/lists/` defines one Keystone list. 
 `Brand`, `Source`, and `Location` are lookup lists with unique `name` fields.
-Their values are database records; controlled values such as `material`, `fit`, `warmth-level`, `size`, and `subtype` are application enums.
+Their values are database records; controlled values such as `material`, `fit`, `season`, `warmth-level`, `size`, and `subtype` are application enums.
 
 `common-wardrobe-fields.ts` provides a factory for fields shared by the wardrobe lists. 
 Pass each list’s `Brand`, `Source`, and `Location` relationship references to the factory so each relationship has the appropriate inverse field.
