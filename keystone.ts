@@ -12,4 +12,15 @@ export default config<TypeInfo>({
     idField: { kind: 'autoincrement' },
   },
   lists,
+  storage: {
+    wardrobeImages: {
+      kind: 'local',
+      type: 'image',
+      storagePath: 'storage/wardrobe-images',
+      generateUrl: path => `/images${path}`,
+      serverRoute: {
+        path: '/images',
+      },
+    },
+  },
 })

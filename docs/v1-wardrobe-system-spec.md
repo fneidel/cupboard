@@ -20,7 +20,7 @@ The database has one table per concrete model:
 The seven wardrobe tables reference them with foreign keys; they are not enums.
 
 The application may define a shared, non-persisted base class or interface (for example, `WardrobeItem`) for common behavior. 
-Each concrete table stores its own copy of the common fields, such as name, brand, source, notes, and image path.
+Each concrete table stores its own copy of the common fields, such as name, brand, source, notes, and an uploaded image.
 
 The table identifies the broad family, so there is no redundant `category` column. A family-specific `subtype` enum identifies the kind within that table. 
 For example, `Clothing.subtype = JEANS` and `Jewelry.subtype = EARRINGS`.
@@ -61,7 +61,7 @@ ID must be defined in migration as the first (ID = `1`) value for that table, an
 | `brand_id`             | id (auto-increment PK) | Use `UNKNOWN` ID when not known (default value).                                                     |
 | `source_id`            | id (auto-increment PK)| Where it came from; use `UNKNOWN` ID as needed (default value).                                      |
 | `notes`                | Nullable text         | Free-form details that do not justify a dedicated field yet.                                         |
-| `image_path`           | Nullable string       | Path/key used by the application’s image storage. It is a local filesystem path for V1.              |
+| `image`                | Nullable image        | Uploaded image and its metadata, stored locally for V1.                                               |
 | `material`             | Required enum         | Use `UNKNOWN` when not known (default value). When blend, use `COTTON_BLEND`, `WOOL_BLEND` and such. |
 | `requires_maintenance` | boolean | Flag for items needing physical upkeep, repairs, or tailoring.                                       |
 
@@ -146,7 +146,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -163,7 +163,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -180,7 +180,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -195,7 +195,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -208,7 +208,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -220,7 +220,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -234,7 +234,7 @@ erDiagram
         int brand_id FK
         int source_id FK
         text notes
-        string image_path
+        image image
         enum material
         boolean requires_maintenance
         enum sub_type
@@ -359,4 +359,4 @@ Add one only if the project later needs a wardrobe interface beyond Keystone’s
 2. **Enums:** should some enums be evolved into their own DB table?
 3. **Color:** Should an item have one free-text color, or multiple selectable colors (for example, primary and secondary)?
 4. **Material:** Is a simple material enum sufficient, or must the system record blends and percentages (for example, 95% cotton / 5% elastane)?
-5. **Image storage:** Confirm whether `image_path`  could become an object-storage key, or another stable reference.
+5. **Image storage:** Confirm whether local image uploads should move to object storage, or another durable storage backend.

@@ -7,6 +7,7 @@ import { createOriginalSizeField, createWarmthLevelField } from '../../fields/fa
 
 export const Accessory = list({
   access: allowAll,
+  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.accessories',

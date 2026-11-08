@@ -10,6 +10,7 @@ import { createFitField, createOriginalSizeField, createWarmthLevelField } from 
 export const Clothing = list({
   access: allowAll,
   graphql: { plural: 'ClothingItems' },
+  ui: {isHidden: true},
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.clothingItems',
