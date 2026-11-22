@@ -1,11 +1,11 @@
 export const headwearSizeOptions = [
-  'UNKNOWN',
-  'ONE_SIZE',
-  'XS',
-  'S',
-  'M',
-  'L',
-  'XL',
+  { label: 'Unknown', value: 'UNKNOWN' },
+  { label: 'One size', value: 'ONE_SIZE' },
+  { label: 'XS', value: 'XS' },
+  { label: 'S', value: 'S' },
+  { label: 'M', value: 'M' },
+  { label: 'L', value: 'L' },
+  { label: 'XL', value: 'XL' },
 ] as const
 
-export const defaultHeadwearSize = 'ONE_SIZE' satisfies (typeof headwearSizeOptions)[number]
+export const defaultHeadwearSize = 'ONE_SIZE' satisfies (typeof headwearSizeOptions)[number]['value']

@@ -1,5 +1,6 @@
 import type { Lists } from '../../.keystone/types'
 import { Brand } from './lists/lookups/brand'
+import { Location } from './lists/lookups/location'
 import { Source } from './lists/lookups/source'
 import { Accessory } from './lists/wardrobe/accessory'
 import { Bag } from './lists/wardrobe/bag'
@@ -11,6 +12,7 @@ import { Jewelry } from './lists/wardrobe/jewelry'
 
 export const lists = {
   Brand,
+  Location,
   Source,
   Clothing,
   Footwear,

@@ -3,6 +3,7 @@ import { defaultMaterial, materialOptions } from '../enums/material'
 
 type LookupReferences = {
   brand: string
+  location: string
   source: string
 }
 
@@ -18,10 +19,17 @@ const requiredLookupReference = (ref: string, column: string) =>
     },
   })
 
+const optionalLookupReference = (ref: string, column: string) =>
+  relationship({
+    ref,
+    db: { foreignKey: { map: column } },
+  })
+
 export const createCommonWardrobeFields = (references: LookupReferences) => ({
   name: text({ validation: { isRequired: true } }),
   brand: requiredLookupReference(references.brand, 'brand_id'),
   source: requiredLookupReference(references.source, 'source_id'),
+  location: optionalLookupReference(references.location, 'location_id'),
   notes: text({
     ui: { displayMode: 'textarea' },
     defaultValue: null,

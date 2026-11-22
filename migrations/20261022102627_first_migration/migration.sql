@@ -11,13 +11,19 @@ CREATE TABLE "Source" (
 );
 
 -- CreateTable
+CREATE TABLE "Location" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL DEFAULT ''
+);
+
+-- CreateTable
 CREATE TABLE "Clothing" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'T_SHIRT',
@@ -27,7 +33,8 @@ CREATE TABLE "Clothing" (
     "original_size" TEXT,
     "usage_context" TEXT,
     CONSTRAINT "Clothing_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Clothing_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Clothing_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Clothing_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -36,18 +43,19 @@ CREATE TABLE "Footwear" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'SNEAKERS',
     "size" TEXT NOT NULL DEFAULT 'ONE_SIZE',
     "fit" TEXT NOT NULL DEFAULT 'REGULAR',
-    "warmth_level" TEXT NOT NULL DEFAULT 'NORMAL',
+    "season" TEXT NOT NULL,
     "is_slip_resistant" BOOLEAN NOT NULL DEFAULT false,
     "original_size" TEXT,
     CONSTRAINT "Footwear_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Footwear_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Footwear_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Footwear_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -56,8 +64,8 @@ CREATE TABLE "Hosiery" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'SOCKS',
@@ -65,7 +73,8 @@ CREATE TABLE "Hosiery" (
     "warmth_level" TEXT NOT NULL DEFAULT 'NORMAL',
     "original_size" TEXT,
     CONSTRAINT "Hosiery_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Hosiery_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Hosiery_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Hosiery_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -74,14 +83,15 @@ CREATE TABLE "Jewelry" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'EARRINGS',
     "length_cm" REAL,
     CONSTRAINT "Jewelry_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Jewelry_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Jewelry_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Jewelry_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -90,13 +100,14 @@ CREATE TABLE "Bag" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'HANDBAG',
     CONSTRAINT "Bag_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Bag_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Bag_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Bag_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -105,15 +116,16 @@ CREATE TABLE "Accessory" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'BELT',
     "warmth_level" TEXT,
     "original_size" TEXT,
     CONSTRAINT "Accessory_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Accessory_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Accessory_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Accessory_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -122,8 +134,8 @@ CREATE TABLE "Headwear" (
     "name" TEXT NOT NULL DEFAULT '',
     "brand_id" INTEGER NOT NULL DEFAULT 1,
     "source_id" INTEGER NOT NULL DEFAULT 1,
+    "location_id" INTEGER,
     "notes" TEXT,
-    "image_path" TEXT,
     "material" TEXT NOT NULL DEFAULT 'UNKNOWN',
     "requires_maintenance" BOOLEAN NOT NULL DEFAULT false,
     "sub_type" TEXT NOT NULL DEFAULT 'BEANIE',
@@ -132,7 +144,8 @@ CREATE TABLE "Headwear" (
     "warmth_level" TEXT NOT NULL DEFAULT 'NORMAL',
     "original_size" TEXT,
     CONSTRAINT "Headwear_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Headwear_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Headwear_source_id_fkey" FOREIGN KEY ("source_id") REFERENCES "Source" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Headwear_location_id_fkey" FOREIGN KEY ("location_id") REFERENCES "Location" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -142,10 +155,16 @@ CREATE UNIQUE INDEX "Brand_name_key" ON "Brand"("name");
 CREATE UNIQUE INDEX "Source_name_key" ON "Source"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Location_name_key" ON "Location"("name");
+
+-- CreateIndex
 CREATE INDEX "Clothing_brand_id_idx" ON "Clothing"("brand_id");
 
 -- CreateIndex
 CREATE INDEX "Clothing_source_id_idx" ON "Clothing"("source_id");
+
+-- CreateIndex
+CREATE INDEX "Clothing_location_id_idx" ON "Clothing"("location_id");
 
 -- CreateIndex
 CREATE INDEX "Footwear_brand_id_idx" ON "Footwear"("brand_id");
@@ -154,10 +173,16 @@ CREATE INDEX "Footwear_brand_id_idx" ON "Footwear"("brand_id");
 CREATE INDEX "Footwear_source_id_idx" ON "Footwear"("source_id");
 
 -- CreateIndex
+CREATE INDEX "Footwear_location_id_idx" ON "Footwear"("location_id");
+
+-- CreateIndex
 CREATE INDEX "Hosiery_brand_id_idx" ON "Hosiery"("brand_id");
 
 -- CreateIndex
 CREATE INDEX "Hosiery_source_id_idx" ON "Hosiery"("source_id");
+
+-- CreateIndex
+CREATE INDEX "Hosiery_location_id_idx" ON "Hosiery"("location_id");
 
 -- CreateIndex
 CREATE INDEX "Jewelry_brand_id_idx" ON "Jewelry"("brand_id");
@@ -166,10 +191,16 @@ CREATE INDEX "Jewelry_brand_id_idx" ON "Jewelry"("brand_id");
 CREATE INDEX "Jewelry_source_id_idx" ON "Jewelry"("source_id");
 
 -- CreateIndex
+CREATE INDEX "Jewelry_location_id_idx" ON "Jewelry"("location_id");
+
+-- CreateIndex
 CREATE INDEX "Bag_brand_id_idx" ON "Bag"("brand_id");
 
 -- CreateIndex
 CREATE INDEX "Bag_source_id_idx" ON "Bag"("source_id");
+
+-- CreateIndex
+CREATE INDEX "Bag_location_id_idx" ON "Bag"("location_id");
 
 -- CreateIndex
 CREATE INDEX "Accessory_brand_id_idx" ON "Accessory"("brand_id");
@@ -178,7 +209,13 @@ CREATE INDEX "Accessory_brand_id_idx" ON "Accessory"("brand_id");
 CREATE INDEX "Accessory_source_id_idx" ON "Accessory"("source_id");
 
 -- CreateIndex
+CREATE INDEX "Accessory_location_id_idx" ON "Accessory"("location_id");
+
+-- CreateIndex
 CREATE INDEX "Headwear_brand_id_idx" ON "Headwear"("brand_id");
 
 -- CreateIndex
 CREATE INDEX "Headwear_source_id_idx" ON "Headwear"("source_id");
+
+-- CreateIndex
+CREATE INDEX "Headwear_location_id_idx" ON "Headwear"("location_id");

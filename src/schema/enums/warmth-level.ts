@@ -1,9 +1,9 @@
 export const warmthLevelOptions = [
-  'VERY_LIGHT',
-  'LIGHT',
-  'NORMAL',
-  'WARM',
-  'VERY_WARM',
+  { label: 'Very light', value: 'VERY_LIGHT' },
+  { label: 'Light', value: 'LIGHT' },
+  { label: 'Normal', value: 'NORMAL' },
+  { label: 'Warm', value: 'WARM' },
+  { label: 'Very warm', value: 'VERY_WARM' },
 ] as const
 
-export const defaultWarmthLevel = 'NORMAL' satisfies (typeof warmthLevelOptions)[number]
+export const defaultWarmthLevel = 'NORMAL' satisfies (typeof warmthLevelOptions)[number]['value']

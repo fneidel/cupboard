@@ -14,6 +14,7 @@ export const Clothing = list({
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.clothingItems',
+      location: 'Location.clothingItems',
       source: 'Source.clothingItems',
     }),
     subType: select({
