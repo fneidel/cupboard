@@ -7,6 +7,7 @@ import { createCommonWardrobeFields } from '../../fields/common-wardrobe-fields'
 export const Jewelry = list({
   access: allowAll,
   graphql: { plural: 'JewelryItems' },
+  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.jewelryItems',

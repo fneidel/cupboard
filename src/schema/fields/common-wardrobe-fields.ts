@@ -1,4 +1,4 @@
-import { checkbox, relationship, select, text } from '@keystone-6/core/fields'
+import { checkbox, image, relationship, select, text } from '@keystone-6/core/fields'
 import { defaultMaterial, materialOptions } from '../enums/material'
 
 type LookupReferences = {
@@ -27,9 +27,9 @@ export const createCommonWardrobeFields = (references: LookupReferences) => ({
     defaultValue: null,
     db: { isNullable: true },
   }),
-  imagePath: text({
-    defaultValue: null,
-    db: { isNullable: true, map: 'image_path' },
+  image: image({
+    storage: 'wardrobeImages',
+    ui: { views: './admin/views/WardrobeImage' },
   }),
   material: select({
     options: materialOptions,

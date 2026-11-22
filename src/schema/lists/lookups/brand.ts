@@ -4,6 +4,9 @@ import { relationship, text } from '@keystone-6/core/fields'
 
 export const Brand = list({
   access: allowAll,
+  ui: {
+    listView: { initialColumns: ['name'] },
+  },
   fields: {
     name: text({
       validation: { isRequired: true },

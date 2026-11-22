@@ -23,7 +23,7 @@ The table itself is the broad category, while `subType` describes the specific k
 
 ### Shared item information
 
-All wardrobe families keep their own copy of the shared item information: name, brand, source, notes, image path, material, and whether maintenance is needed. 
+All wardrobe families keep their own copy of the shared item information: name, brand, source, notes, an uploaded image, material, and whether maintenance is needed.
 Keeping these columns in each table makes every family usable on its own and avoids a large table full of irrelevant empty fields.
 
 `Brand` and `Source` are lookup records, not enums. 

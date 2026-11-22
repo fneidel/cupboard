@@ -9,6 +9,7 @@ import { createOriginalSizeField, createWarmthLevelField } from '../../fields/fa
 export const Hosiery = list({
   access: allowAll,
   graphql: { plural: 'HosieryItems' },
+  ui: { listView: { initialColumns: ['name', 'brand', 'image'] } },
   fields: {
     ...createCommonWardrobeFields({
       brand: 'Brand.hosieryItems',
